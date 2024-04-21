@@ -12,6 +12,6 @@
     "@aws-sdk/client-sqs": "^3.556.0",
     "child_process": "^1.0.2",
     "dotenv": "^16.4.5",
-    "text-to-image": "^5.2.0"
+    "ultimate-text-to-image": "^1.0.1"
   }
 }

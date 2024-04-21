@@ -4,6 +4,11 @@ const os = require('os');
 const path = require('path');
 const fs = require('fs');
 const { exec, spawn } = require('child_process');
+const {UltimateTextToImage, registerFont} = require("ultimate-text-to-image");
+
+registerFont(path.resolve(__dirname, 'Nabla-Regular.ttf'), 'Nabla Regular');
+
+
 
 require('dotenv').config(); // Load environment variables from .env file
 
@@ -56,18 +61,27 @@ async function pollForMessages() {
 }
 
 async function generateAndSaveImage(message) {
-    const dataUri = await textToImage.generate(message, {
-        maxWidth: 800,
-        customHeight: 100,
-        fontSize: 18,
-        fontFamily: 'Arial',
-        lineHeight: 30,
-        margin: 5,
-        bgColor: 'blue',
-        textColor: 'red',
-    });
+    const ourShit = new UltimateTextToImage(`Our new chat conductor is ${message}!`, {
+        width: 800,
+        height: 100,
+        fontFamily: "Nabla Regular",
+        fontColor: "#FFD700",
+        fontSize: 124,
+        minFontSize: 10,
+        lineHeight: 50,
+        autoWrapLineHeightMultiplier: 1.2,
+        margin: 20,
+        marginBottom: 40,
+        align: "center",
+        valign: "middle",
+        backgroundColor: "#000000",
+      
+    })
+        .render()
+        // .toFile(path.join(__dirname, 'output.png'))
+        .toDataUrl();
 
-    saveRecentWinner(dataUri);
+    saveRecentWinner(ourShit);
 }
 
 // Function to delete a message from the queue
@@ -103,6 +117,7 @@ function getMostRecentFolderSync() {
 
 // Start polling for messages
 pollForMessages();
+generateAndSaveImage("Hello, World!");
 
 
 function saveRecentWinner(dataUri) {
@@ -120,7 +135,7 @@ function saveRecentWinner(dataUri) {
     // Edit manifest.json and restart StreamDeck
     const manifestPath = path.join(profilesPath, mostRecentProfile, 'manifest.json');
     editManifestJson(manifestPath);
-    killProcessByName('StreamDeck.exe');
+    // killProcessByName('StreamDeck.exe');
     startStreamDeck();
 }
 
@@ -148,7 +163,7 @@ function startStreamDeck() {
             }
             console.log(stdout);
         });
-    }, 300);
+    }, 500);
 }
 
 function editManifestJson(manifestPath) {
