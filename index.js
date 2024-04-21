@@ -1,9 +1,8 @@
 const { SQSClient, ReceiveMessageCommand, DeleteMessageCommand } = require("@aws-sdk/client-sqs");
-const textToImage = require('text-to-image');
 const os = require('os');
 const path = require('path');
 const fs = require('fs');
-const { exec, spawn } = require('child_process');
+const { exec } = require('child_process');
 const {UltimateTextToImage, registerFont} = require("ultimate-text-to-image");
 
 registerFont(path.resolve(__dirname, 'Nabla-Regular.ttf'), 'Nabla Regular');
