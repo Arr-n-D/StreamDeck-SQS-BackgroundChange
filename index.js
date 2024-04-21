@@ -5,8 +5,6 @@ const path = require('path');
 const fs = require('fs');
 const { exec, spawn } = require('child_process');
 
-
-// Replace these values with your actual AWS access key ID and secret key
 require('dotenv').config(); // Load environment variables from .env file
 
 const accessKeyId = process.env.ACCESS_KEY_ID;
@@ -24,7 +22,7 @@ const sqsClient = new SQSClient({
 
 const queueUrl = process.env.QUEUE_URL; // Replace with your SQS queue URL
 
-// Function to poll for messages
+
 async function pollForMessages() {
     try {
         // Create a command to receive messages from the queue
